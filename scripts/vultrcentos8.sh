@@ -5,7 +5,7 @@ random() {
 }
 
 array=(1 2 3 4 5 6 7 8 9 0 a b c d e f)
-main_interface=$(ip route get 8.8.8.8 | awk -- '{printf $5}')
+main_interface=$(ip route get 1.1.1.1 | awk -- '{printf $5}')
 
 gen64() {
 	ip64() {
@@ -17,14 +17,14 @@ install_3proxy() {
     echo "installing 3proxy"
     mkdir -p /3proxy
     cd /3proxy
-    URL="https://github.com/z3APA3A/3proxy/archive/0.9.3.tar.gz"
+    URL="https://github.com/3proxy/3proxy/releases/download/0.9.4/3proxy-0.9.4.zip"
     wget -qO- $URL | bsdtar -xvf-
-    cd 3proxy-0.9.3
+    cd 3proxy-0.9.4
     make -f Makefile.Linux
     mkdir -p /usr/local/etc/3proxy/{bin,logs,stat}
-    mv /3proxy/3proxy-0.9.3/bin/3proxy /usr/local/etc/3proxy/bin/
+    mv /3proxy/3proxy-0.9.4/bin/3proxy /usr/local/etc/3proxy/bin/
     wget https://raw.githubusercontent.com/thuongtin/ipv4-ipv6-proxy/master/scripts/3proxy.service-Centos8 --output-document=/3proxy/3proxy-0.9.3/scripts/3proxy.service2
-    cp /3proxy/3proxy-0.9.3/scripts/3proxy.service2 /usr/lib/systemd/system/3proxy.service
+    cp /3proxy/3proxy-0.9.4/scripts/3proxy.service2 /usr/lib/systemd/system/3proxy.service
     systemctl link /usr/lib/systemd/system/3proxy.service
     systemctl daemon-reload
 #    systemctl enable 3proxy
@@ -47,8 +47,8 @@ gen_3proxy() {
 daemon
 maxconn 2000
 nserver 1.1.1.1
-nserver 8.8.4.4
-nserver 2001:4860:4860::8888
+nserver 203.113.131.1
+nserver 2606:4700:4700::1111
 nserver 2001:4860:4860::8844
 nscache 65536
 timeouts 1 5 30 60 180 1800 15 60
